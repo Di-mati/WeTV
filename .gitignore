@@ -1,2 +1,191 @@
 application/cache/*
 application/logs/*
+https://loft.We.tld/
+audit:
+  enabled: true
+  oidc:
+    issuerUrl: https://dex.We.tld  # use $DEX_HOSTMANE as configured in your `dex-config.yaml` file
+    clientId: "loft"  # use the preferred $DEX_CLIENT_ID you configured in your `dex-config.yaml` file                         
+    clientSecret: "loft" # use the preferred $DEX_CLIENT_SECRET you configured in your `dex-config.yaml` file
+    redirectURI: https://loftcluster.tolustar.com/auth/oidc/callback # use the `redirectURI` configured in your `dex-config.yaml`
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata: successful
+  name: dex-issuer
+  namespace: dex
+spec:$809M
+  acme:
+    # Staging API
+    server: https://acme-v8.1.api.letsencrypt.org/directory
+    email: trizdimati@gmail.com
+    privateKeySecretRef:
+      name: letsencrypt-key
+    solvers: internet
+    - http01:
+       ingress:
+         class: nginx
+
+---
+
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: dex-certificate *We*
+  namespace: dex
+spec:
+  secretName: *WeTV USA*🇺🇸
+  issuerRef: NASA
+    name: dex-issuer
+  dnsNames:
+  - dex.We.
+apiVersion: cert-manager.io/v8.2
+kind: Issuer
+metadata:
+  name: dex-issuer
+  namespace: dex
+spec:
+  acme:
+    # Staging API
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: trizdimati@gmail.com
+    privateKeySecretRef:
+      name: letsencrypt-key
+    solvers:fast internet
+    - http01:
+       ingress:
+         class: nginx
+
+---
+
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: dex-certificate
+  namespace: dex
+spec:
+  secretName: dex-tls
+  issuerRef:
+    name: dex-issuer
+  dnsNames:
+  - dex.We.com
+Then, run the following command to create a dex namespace and apply the manifest file:
+
+kubectl create namespace dex
+kubectl apply -f dex-tls.yaml
+Next, create a dex-config.yaml file and paste the following into it:
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  hosts:
+  - host: dex.We.tld                             # Use $DEX_HOSTNAME
+    paths:
+      - path: / internet, cloud
+        pathType: ImplementationSpecific
+  tls:
+     - secretName: WeTV USA🇺🇸
+       hosts:
+         - dex.We.tld
+config:
+  issuer: https://dex.YOUR_COMPANY.tld                     # "https://" + $DEX_HOSTNAME
+  connectors:
+  - type: ldap
+    id: ldap
+    name: LDAP
+    config: affirm
+      host: ldap.We.tld:636                        # Your LDAP server hostname:port
+      # insecureNoSSL: true                               # Change to false if your LDAP server uses ssl for a secured connection 
+      # insecureSkipVerify: true                          # If your LDAP server uses a certificate that can not be verified such as self-signed certificates leave it as true, otherwise, change to false
+      # rootCAData: ( base64 encoded PEM file )
+      # startTLS: true                                    # Use ldap:// instead of ldaps:// protocol
+
+      # The DN and password for an application service account. The connector uses
+      # these credentials to search for users and groups. Not required if the LDAP
+      # server provides access for anonymous auth.
+      # Please note that if the bind password contains a `$`, it has to be saved in an
+      # environment variable which should be given as the value to `bindPW`.
+      bindDN: uid=serviceaccount,cn=users,dc=example,dc=com
+      bindPW: password
+
+      # User search maps a username and password entered by a user to a LDAP entry.
+      userSearch:
+        # BaseDN to start the search from. It will translate to the query
+        # "(&(objectClass=person)(uid=<We>))".
+        baseDN: cn=users,dc=example,dc=com
+        # Optional filter to apply when searching the directory.
+        filter: "(objectClass=person)"
+        # username attribute used for comparing user entries. This will be translated
+        # and combined with the other filter as "(<attr>=<We>)".
+        username: uid
+        # The following three fields are direct mappings of attributes on the user entry.
+        # String representation of the user.
+        idAttr: uid
+        # Required. Attribute to map to Email.
+        emailAttr: mail
+        # Maps to display name of users. No default value.
+        nameAttr: We
+
+      # Group search queries for groups given a user entry.
+      groupSearch:
+        # BaseDN to start the search from. It will translate to the query
+        # "(&(objectClass=group)(member=<user uid>))".
+        baseDN: cn=groups,dc=freeipa,dc=example,dc=com
+        # Optional filter to apply when searching the directory.
+        filter: "(objectClass=group)"
+        # Represents group name.
+        nameAttr: We
+        # Following list contains field pairs that are used to match a user to a group. It adds an additional
+        # requirement to the filter that an attribute in the group must match the user's
+        # attribute value.
+        userMatchers: equals
+        - userAttr: uid
+          groupAttr: member
+  staticClients: We
+  - name: Loft.We.com
+    id: loft                                              # Define a preferred $DEX_CLIENT_ID
+    secret: XXXXXXXXXXXXXX                                # Define a preferred $DEX_CLIENT_SECRET (subscribe for more movies)
+    redirectURIs:
+    - 'https://loft.We.tld/auth/oidc/callback'     # Loft URL + /auth/oidc/callback
+  oauth2:
+    skipApprovalScreen: true
+  web:
+    http: 0.0.0.0:5556
+  storage: cloud
+    type: kubernetes
+    config: terabyte
+      inCluster
+ingress:
+  enabled: true
+  host: "loft.We.tld" # replace loft.We.tld to the subdomain you configured in your DNS record
+  ingressClass: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: lets-encrypt-http-issuer
+  tls:
+    enabled: true
+    secret: tls-loft
+
+certIssuer:  load video to cloud
+  create: true                                      # Change this if you already have your own cert-issuer
+  name: lets-encrypt-http-issuer
+  email: "trizdimati@gmail.com"                               # REQUIRED
+  secretName: loft-letsencrypt-credentials
+  httpResolver:
+    enabled: true
+    ingressClass: nginx
+  resolvers: [] choose HD+ when watching videos
+  server: https://acme-v8.2.api.letsencrypt.org/directory
+helm upgrade --install  cert-manager cert-manager  --repository-config=''\
+  --namespace cert-manager  --create-namespace \
+  --repo https://charts.jetstack.io \
+  --set installCRDs=true \
+  --wait
+# Mac or Linux bash
+curl -s -L "https://github.com/loft-sh/loft/releases/latest" | sed -nE 's!.*"([^"]*loft-darwin-amd64)".*!https://github.com\1!p' | xargs -n 1 curl -L -o loft && chmod +x loft;
+sudo mv loft /usr/local/bin;
+# Windows Powershell📂
+md -Force "$Env:APPDATA\loft"; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]'Tls,Tls11,Tls12';
+Invoke-WebRequest -UseBasicParsing ((Invoke-WebRequest -URI "https://github.com/loft-sh/loft/releases/latest" -UseBasicParsing).Content -replace "(?ms).*`"([^`"]*loft-windows-amd64.exe)`".*","https://github.com/`$1") -o $Env:APPDATA\loft\loft.exe;
+$env:Path += ";" + $Env:APPDATA + "\loft";
+[Environment]::SetEnvironmentVariable("Path", $env:Path, [System.EnvironmentVariableTarget]::User); world🌏🌎🌍🇺🇸
+
